@@ -27,7 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //Router
 var router = require('./routes/index');
-app.use('/apigd', router);
+app.use('/apitickets', router);
 
 // Port listening
 app.listen(port)

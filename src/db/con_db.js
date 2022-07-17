@@ -14,3 +14,5 @@ connection.connect(function(error){
    }
 });
 connection.end();
+
+module.exports = connection;
