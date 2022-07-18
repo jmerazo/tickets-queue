@@ -1211,7 +1211,7 @@ CREATE TABLE `dependences` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb3;
 
 /*Data for the table `dependences` */
 
@@ -1358,11 +1358,15 @@ CREATE TABLE `users` (
   `phone` varchar(20) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
   `dependence_id` int(3) DEFAULT NULL,
+  `subdependence_id` int(3) DEFAULT NULL,
   `status` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
 
 /*Data for the table `users` */
+
+insert  into `users`(`id`,`document_type`,`document_number`,`names`,`last_names`,`phone`,`email`,`dependence_id`,`subdependence_id`,`status`) values 
+(1,'Cédula','18184687','Asael','Muñoz','3205638979','asaelm72@gmail.com',7,5,NULL);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
