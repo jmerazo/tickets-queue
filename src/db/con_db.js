@@ -10,9 +10,9 @@ connection.connect(function(error){
    if(error){
       throw error;
    }else{
-      console.log('Successful connection.');
+      console.log('Database successful connection.');
    }
 });
-connection.end();
+//connection.end();
 
 module.exports = connection;

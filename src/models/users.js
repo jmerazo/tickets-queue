@@ -1,104 +1,65 @@
 const connection = require('../db/con_db');
 
- 
-//Obtenemos todos los usuarios
- const getUsers = async (req, res) => {
-    await connection.query('SELECT * FROM users', (error, rows) => {
-			if(error){
-				throw error;
-			}else{
-				callback(null, rows);
-			}
-		});
+//List users all
+ const getUsersModel = async function(result) {
+    await connection.query('SELECT * FROM users', (error, users) => {
+		if(error){
+			return result(error, null);
+		}else{
+			return result(null, users);
+		}
+	});
 }
  
-//Obtenemos un usuario por su id
-const getUserById = function(id,callback)
-{
-	if (connection) 
-	{
-		var sql = 'SELECT * FROM users WHERE id = ' + connection.escape(id);
-		connection.query(sql, function(error, row) 
-		{
-			if(error)
-			{
-				throw error;
-			}
-			else
-			{
-				callback(null, row);
-			}
-		});
-	}
+//List user by Id
+const getUserById = async function(id, result){
+	await connection.query(`SELECT * FROM users WHERE id = ${id}`, (error, user) =>{
+		if(error){
+			return result(error, null);
+		}else{
+			return result(null, user);
+		}
+	});
 }
 
-//Añadir un nuevo usuario
-const insertUser = function(userData,callback)
-{
-	if (connection) 
-	{
-		connection.query('INSERT INTO users SET ?', userData, function(error, result) 
-		{
-			if(error)
-			{
-				
-				throw error;
-			}
-			else
-			{
-				//devolvemos el id del usuario insertado
-				callback(null, result.insertId);
-			}
-		});
-	}
+//Add new user
+const createUserModel = async (userData,result) => {
+	await connection.query('INSERT INTO users SET ?', userData, (error, results) => {
+		if(error){			
+			return result(error, null);
+		}else{
+			//devolvemos el id del usuario insertado
+			return result(null, results.id);
+		}
+	});
 }
  
-//Actualizar un usuario
-const updateUser = function(userData, callback)
-{
-	
-	if(connection)
-	{
-		var sql = 'UPDATE users SET names = ' + connection.escape(userData.names)  +' WHERE id = ' + userData.id;
-		connection.query(sql, function(error, result) 
-		{
-			if(error)
-			{
-				throw error;
-			}
-			else
-			{
-				callback(null,{"mensaje":"Actualizado"});
-			}
-		});
-	}
+//Update user
+const updateUserModel = async (id, userData, result) => {
+	await connection.query(`UPDATE users SET ? WHERE id = ${id}`, userData, (error, results) => {
+		if(error){
+			return result(error, null);
+		}else{
+			return result(null, results.id)
+		}
+	});
 }
  
-//Eliminar un usuario por su id
-const deleteUser = function(id, callback)
-{
-	if(connection)
-	{
-		var sql = 'DELETE FROM users WHERE id = ' + connection.escape(id);
-		connection.query(sql, function(error, result) 
-			{
-				if(error)
-					{
-						throw error;
-					}
-				else
-					{
-						callback(null,{"mensaje":"Borrado"});
-					}
-			});
-	}
-			
+//Delete user by Id
+const deleteUserModel = async (id, result) => {
+	await connection.query(`DELETE FROM users WHERE id = ${id}`, (error, results) =>{
+		if(error){
+			return result(error, null)
+		}else{
+			return result(null, results.id)
+		}
+	});			
 }
 
 module.exports = {
-    getUsers,
+    getUsersModel,
     getUserById,
-    insertUser,
-    updateUser,
-    deleteUser
+    createUserModel,
+    updateUserModel,
+    deleteUserModel
 };
