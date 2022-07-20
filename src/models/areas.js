@@ -54,18 +54,18 @@ const deleteDependenceModel = async (id, result) => {
 }
 
 // ======================= SUBDEPENDENCES ================================ //
-const getSubdependencesModel = async function(result) {
-    await connection.query('SELECT * FROM subdependences', (error, dependences) => {
+const getSubdependenciesModel = async function(result) {
+    await connection.query('SELECT * FROM subdependencies', (error, subdependencies) => {
 		if(error){
 			return result(error, null);
 		}else{
-			return result(null, dependences);
+			return result(null, subdependencies);
 		}
 	});
 }
  
 const getSubdependenceByIdModel = async function(id, result){
-	await connection.query(`SELECT * FROM subdependences WHERE id = ${id}`, (error, dependence) =>{
+	await connection.query(`SELECT * FROM subdependencies WHERE id = ${id}`, (error, dependence) =>{
 		if(error){
 			return result(error, null);
 		}else{
@@ -75,7 +75,7 @@ const getSubdependenceByIdModel = async function(id, result){
 }
 
 const createSubdependenceModel = async (depData,result) => {
-	await connection.query('INSERT INTO subdependences SET ?', depData, (error, results) => {
+	await connection.query('INSERT INTO subdependencies SET ?', depData, (error, results) => {
 		if(error){			
 			return result(error, null);
 		}else{
@@ -86,7 +86,7 @@ const createSubdependenceModel = async (depData,result) => {
 }
  
 const updateSubdependenceModel = async (id, depData, result) => {
-	await connection.query(`UPDATE subdependences SET ? WHERE id = ${id}`, depData, (error, results) => {
+	await connection.query(`UPDATE subdependencies SET ? WHERE id = ${id}`, depData, (error, results) => {
 		if(error){
 			return result(error, null);
 		}else{
@@ -96,7 +96,7 @@ const updateSubdependenceModel = async (id, depData, result) => {
 }
  
 const deleteSubdependenceModel = async (id, result) => {
-	await connection.query(`DELETE FROM subdependences WHERE id = ${id}`, (error, results) =>{
+	await connection.query(`DELETE FROM subdependencies WHERE id = ${id}`, (error, results) =>{
 		if(error){
 			return result(error, null)
 		}else{
@@ -111,7 +111,7 @@ module.exports = {
     createDependenceModel,
     updateDependenceModel,
     deleteDependenceModel,
-    getSubdependencesModel,
+    getSubdependenciesModel,
     getSubdependenceByIdModel,
     createSubdependenceModel,
     updateSubdependenceModel,

@@ -1,0 +1,4 @@
+Se requiere agregar:
+
+- Validación de los campos de correo
+- Validación de que el usuario no se repita
