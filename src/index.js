@@ -1,9 +1,9 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-//var cors = require('cors');
+var cors = require('cors');
 var bodyParser = require('body-parser');
-//var morgan = require('morgan');
+var morgan = require('morgan');
 
 var router = express.Router();
 
@@ -16,8 +16,8 @@ require('./db/con_db')
 var port = process.env.PORT || 8888
 
 //Use apps
-//app.use(morgan('combined'));
-//app.use(cors());
+app.use(morgan('combined'));
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));

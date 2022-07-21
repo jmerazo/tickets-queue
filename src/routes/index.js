@@ -6,6 +6,7 @@ const personsController = require('../controllers/persons');
 const managementsController = require('../controllers/managements');
 const ticketsController = require('../controllers/tickets');
 const subjectsController = require('../controllers/subjects');
+const locationsController = require('../controllers/locations');
 
 // Route information to connect API
 router.get('/', function(req, res){res.status(200).json({ message: 'Connect to our API'})});
@@ -57,5 +58,12 @@ router.get('/subject/search/:id', subjectsController.getSubjectByIdController);
 router.post('/subject/create', subjectsController.createSubjectController);
 router.put('/subject/update/:id', subjectsController.updateSubjectController);
 router.delete('/subject/delete/:id', subjectsController.deleteSubjectController);
+
+// Route locations
+router.get('/departments', locationsController.getDepartmentsController);
+router.get('/department/search/:id', locationsController.getDepartmentByIdController);
+router.get('/cities', locationsController.getCitiesController);
+router.get('/city/search/:id', locationsController.getCityByIdController);
+router.get('/cities/filter/:id', locationsController.getCityByDIDController);
 
 module.exports = router;
