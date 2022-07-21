@@ -36,6 +36,8 @@ const createPersonController = async (req, res, next) => {
         department_id : req.body.department_id
     }
 
+    console.log(userData);
+
     await personsModel.createPersonModel(userData, (error, data) => {
         if(error){
             res.status(500).json({message:'Error'})
