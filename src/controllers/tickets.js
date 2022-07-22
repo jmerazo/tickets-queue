@@ -1,4 +1,7 @@
 const ticketsModel = require('../models/tickets');
+//const prefixController = require('./prefix');
+const prefixModel = require('../models/prefix');
+const connection = require('../db/con_db');
 
 const getTicketsController = async (req, res, next) => {
     await ticketsModel.getTicketsModel(function(err, data){
@@ -24,20 +27,31 @@ const createTicketController = async (req, res, next) => {
             message: "Content can not be empty!"
         })
     }
-    
+    console.log("Date: ",req.body.date);
+    console.log("Time: ",req.body.time);
+    console.log("Prefix: ", req.body.prefix);
+    console.log("Count: ", req.body.count);
+    console.log("Dependence: ",req.body.dependence_id);
+    console.log("Subdependence: ",req.body.subdependence_id);
+    console.log("User: ",req.body.user_id);
+    console.log("Subject: ",req.body.subject_id);
+    console.log("Description: ",req.body.description);
+
+    //const num = req.body.count;
+    //console.log(num[0,0].count);
+
     const ticketData = {
         date : req.body.date,
         time : req.body.time,
         prefix : req.body.prefix,
+        count : req.body.count[0,0].count+1,
         dependence_id : req.body.dependence_id,
+        subdependence_id : req.body.dependence_id,
         user_id : req.body.user_id,
-        management_id : req.body.management_id,
-        person_id : req.body.person_id,
         subject_id : req.body.subject_id,
-        description : req.body.description,
-        status: req.body.status
+        description : req.body.description
     }
-
+    console.log("Form");
     console.log(ticketData);
 
     await ticketsModel.createTicketModel(ticketData, (error, data) => {

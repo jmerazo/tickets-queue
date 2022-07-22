@@ -7,6 +7,7 @@ const managementsController = require('../controllers/managements');
 const ticketsController = require('../controllers/tickets');
 const subjectsController = require('../controllers/subjects');
 const locationsController = require('../controllers/locations');
+const prefixController = require('../controllers/prefix');
 
 // Route information to connect API
 router.get('/', function(req, res){res.status(200).json({ message: 'Connect to our API'})});
@@ -22,6 +23,7 @@ router.delete('/user/delete/:id', usersController.deleteUserController);
 // Routes Areas
 router.get('/dependences', areasController.getDependencesController);
 router.get('/dependence/search/:id', areasController.getDependenceByIdController);
+router.get('/dependence/code/:id', prefixController.getCodeDepController);
 router.post('/dependence/create', areasController.createDependenceController);
 router.put('/dependence/update/:id', areasController.updateDependenceController);
 router.delete('/dependence/delete/:id', areasController.deleteDependenceController);
@@ -29,6 +31,7 @@ router.delete('/dependence/delete/:id', areasController.deleteDependenceControll
 router.get('/subdependencies', areasController.getSubdependencesController);
 router.get('/subdependence/search/:id', areasController.getSubdependenceByIdController);
 router.get('/subdependence/filter/:id', areasController.getSubdependenceByDIDController);
+router.get('/subdependence/code/:id', prefixController.getCodeSubdController);
 router.post('/subdependence/create', areasController.createSubdependenceController);
 router.put('/subdependence/update/:id', areasController.updateSubdependenceController);
 router.delete('/subdependence/delete/:id', areasController.deleteSubdependenceController);
@@ -50,6 +53,7 @@ router.delete('/management/delete/:id', managementsController.deleteManagementCo
 // Route tickets
 router.get('/tickets', ticketsController.getTicketsController);
 router.get('/ticket/search/:id', ticketsController.getTicketByIdController);
+router.get('/ticket/count', prefixController.getCountController);
 router.post('/ticket/create', ticketsController.createTicketController);
 router.put('/ticket/update/:id', ticketsController.updateTicketController);
 router.delete('/ticket/delete/:id', ticketsController.deleteTicketController);
