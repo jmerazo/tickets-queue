@@ -95,6 +95,17 @@ const getSubdependenceByIdController = async (req, res, next) => {
     });
 }
 
+const getSubdependenceByDIDController = async (req, res, next) => {
+    const id = req.params.id;
+    areasModel.getSubdependenceByDIDModel(id, (err, data) => {
+        if(err){
+            res.status(500).json({message:'Database error'})
+        }else{
+            res.status(200).json(data);
+        }
+    });
+}
+
 const createSubdependenceController = async (req, res, next) => {
 
     if(!req.body){
@@ -163,6 +174,7 @@ module.exports = {
     deleteDependenceController,
     getSubdependencesController,
     getSubdependenceByIdController,
+    getSubdependenceByDIDController,
     createSubdependenceController,
     updateSubdependenceController,
     deleteSubdependenceController

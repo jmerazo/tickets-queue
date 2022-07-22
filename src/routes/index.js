@@ -14,6 +14,7 @@ router.get('/', function(req, res){res.status(200).json({ message: 'Connect to o
 // Routes Users
 router.get('/users', usersController.getUsersController);
 router.get('/user/search/:id', usersController.getUserByIdController);
+router.get('/user/filter/:id', usersController.getUserByDIDController);
 router.post('/user/create', usersController.createUsersController);
 router.put('/user/update/:id', usersController.updateUserController);
 router.delete('/user/delete/:id', usersController.deleteUserController);
@@ -27,6 +28,7 @@ router.delete('/dependence/delete/:id', areasController.deleteDependenceControll
 // ------------------------------------------------------------------------
 router.get('/subdependencies', areasController.getSubdependencesController);
 router.get('/subdependence/search/:id', areasController.getSubdependenceByIdController);
+router.get('/subdependence/filter/:id', areasController.getSubdependenceByDIDController);
 router.post('/subdependence/create', areasController.createSubdependenceController);
 router.put('/subdependence/update/:id', areasController.updateSubdependenceController);
 router.delete('/subdependence/delete/:id', areasController.deleteSubdependenceController);

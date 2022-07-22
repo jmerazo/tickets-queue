@@ -22,6 +22,16 @@ const getUserById = async function(id, result){
 	});
 }
 
+const getUserByDIDModel = async function(sdid, result){
+	await connection.query(`SELECT id, names, last_names, dependence_id, subdependence_id, status FROM users WHERE subdependence_id = ${sdid} AND status = 1`, (error, users) =>{
+		if(error){
+			return result(error, null);
+		}else{
+			return result(null, users);
+		}
+	});
+}
+
 //Add new user
 const createUserModel = async (userData,result) => {
 	await connection.query('INSERT INTO users SET ?', userData, (error, results) => {
@@ -59,6 +69,7 @@ const deleteUserModel = async (id, result) => {
 module.exports = {
     getUsersModel,
     getUserById,
+	getUserByDIDModel,
     createUserModel,
     updateUserModel,
     deleteUserModel

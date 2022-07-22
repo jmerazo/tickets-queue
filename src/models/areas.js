@@ -74,6 +74,16 @@ const getSubdependenceByIdModel = async function(id, result){
 	});
 }
 
+const getSubdependenceByDIDModel = async function(id, result){
+	await connection.query(`SELECT * FROM subdependencies WHERE dependence_id = ${id}`, (error, subdependences) =>{
+		if(error){
+			return result(error, null);
+		}else{
+			return result(null, subdependences);
+		}
+	});
+}
+
 const createSubdependenceModel = async (depData,result) => {
 	await connection.query('INSERT INTO subdependencies SET ?', depData, (error, results) => {
 		if(error){			
@@ -113,6 +123,7 @@ module.exports = {
     deleteDependenceModel,
     getSubdependenciesModel,
     getSubdependenceByIdModel,
+	getSubdependenceByDIDModel,
     createSubdependenceModel,
     updateSubdependenceModel,
     deleteSubdependenceModel

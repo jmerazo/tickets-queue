@@ -17,6 +17,17 @@ const getUserByIdController = async (req, res, next) => {
     });
 }
 
+const getUserByDIDController = async (req, res, next) => {
+    const id = req.params.id;
+    usersModel.getUserByDIDModel(id, (err, data) => {
+        if(err){
+            res.status(500).json({message:'Error'})
+        }else{
+            res.status(200).json(data);
+        }
+    });
+}
+
 const createUsersController = async (req, res, next) => {
 
     if(!req.body){
@@ -92,6 +103,7 @@ const deleteUserController = async (req, res, next) => {
 module.exports = {
     getUsersController,
     getUserByIdController,
+    getUserByDIDController,
     createUsersController,
     updateUserController,
     deleteUserController
