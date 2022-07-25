@@ -24,7 +24,7 @@ const createPersonController = async (req, res, next) => {
             message: "Content can not be empty!"
         })
     }
-    
+
     const userData = {
         document_type : req.body.document_type,
         document_number : req.body.document_number,
@@ -35,8 +35,6 @@ const createPersonController = async (req, res, next) => {
         city_id : req.body.city_id,
         department_id : req.body.department_id
     }
-
-    console.log(userData);
 
     await personsModel.createPersonModel(userData, (error, data) => {
         if(error){

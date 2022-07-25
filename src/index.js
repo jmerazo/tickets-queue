@@ -26,9 +26,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 //});
 
 //Router
-var router = require('./routes/index');
+const router = require('./routes/index');
+const auth = require('./routes/auth')
 app.use('/apitickets', router);
-app.use('/apitickets-auth', router);
+app.use('/apitickets-auth', auth);
 
 // Port listening
 app.listen(port)
