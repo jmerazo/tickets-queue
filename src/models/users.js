@@ -32,6 +32,16 @@ const getUserByDIDModel = async function(sdid, result){
 	});
 }
 
+const getUserByEmailModel = async (email, result) => {
+	await connection.query(`SELECT email FROM users WHERE email = ${email}`, (error, validation) => {
+		if(error){
+			return result(error, null);
+		}else{
+			return result(null, validation);
+		}
+	});
+}
+
 //Add new user
 const createUserModel = async (userData,result) => {
 	await connection.query('INSERT INTO users SET ?', userData, (error, results) => {
@@ -70,6 +80,7 @@ module.exports = {
     getUsersModel,
     getUserById,
 	getUserByDIDModel,
+	getUserByEmailModel,
     createUserModel,
     updateUserModel,
     deleteUserModel

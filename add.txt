@@ -2,3 +2,7 @@ Se requiere agregar:
 
 - Validación de los campos de correo
 - Validación de que el usuario no se repita
+- Validación de formularios
+
+
+https://www.section.io/engineering-education/how-to-build-authentication-api-with-jwt-token-in-nodejs/

@@ -28,6 +28,17 @@ const getUserByDIDController = async (req, res, next) => {
     });
 }
 
+const getUserByEmailController = async (req, res, next) => {
+    const email = req.params.email;
+    usersModel.getUserByEmailModel(email, (err, data) => {
+        if(err){
+            res.status(500).json({message:'Error database'})
+        }else{
+            res.status(200).json(data)
+        }
+    })
+}
+
 const createUsersController = async (req, res, next) => {
 
     if(!req.body){
@@ -104,6 +115,7 @@ module.exports = {
     getUsersController,
     getUserByIdController,
     getUserByDIDController,
+    getUserByEmailController,
     createUsersController,
     updateUserController,
     deleteUserController
