@@ -6,12 +6,3 @@ Se requiere agregar:
 
 
 https://www.section.io/engineering-education/how-to-build-authentication-api-with-jwt-token-in-nodejs/
-
-helper.compare(password, user.password).then((val) => {
-            if(val==false){
-                res.status(404).json({message:"Password incorrecta!!"});
-            }else{
-                res.status(200).json({message:"password correcta!!"});
-            }
-            console.log(val)
-        });
