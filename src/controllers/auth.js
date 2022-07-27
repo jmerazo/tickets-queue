@@ -16,12 +16,14 @@ const userLoginCreate = async (req, res) => {
             if(err){
                 console.log("error validate: ",err)
             }else{
-                console.log("desde validate: ",data)
-                return data;
+                if(data.length > 0){
+                    console.log("desde validate: ",data)
+                    return data[0,0].username;
+                }else{
+                    data = "";
+                }
             }
-        })
-
-        var obt = validateEmail.then(val => console.log("desde then: ",val))
+        });
 
         console.log("Check email: ",validateEmail);
 
