@@ -1,42 +1,43 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const validateEmailController = require('../controllers/users');
 const userAuthModel = require('../models/auth');
 
-const userAuthCreate = async (req, res, next) => {
-    try {
-        
-        const {username, password} = req.body;
+const userLoginCreate = async (req, res) => {
+    try {        
+        var {username, password} = req.body;
+        console.log("Username: ",username);
+        console.log("Password: ",password);
         
         if(!username || !password){
             res.status(400).send('All input is required');
         }
 
-        const validateEmail = await userAuthModel.userAuthByEmail(username);
+        var validateEmail = userAuthModel.userAuthByEmail(username);
+
+        console.log("Check email: ",validateEmail);
 
         if(validateEmail){
             return res.status(409).send('User already exist. Please login');
         }
 
         encryptedPassword = await bcrypt.hash(password, 10);
+        console.log("Pass encyrpt: ", encryptedPassword);
 
         const userAuthData = {
             username : req.body.username.toLowerCase(),
             password: encryptedPassword
         }
-        const userAuth = await userAuthModel.createUserAuthModel(userAuthData, (error, data) => {
-            if(error){
-                res.status(500).json({message:'Error'})
-            }else{
-                res.send(data).status(200);
-            }
-        })
+        const userAuth = await userAuthModel.createUserAuthModel(userAuthData);
+
+        console.log("User data: ",userAuth);
 
         const token = jwt.sign(
-            { user_id : userAuth.id, username },
+            { user_id : userAuth, username },
             process.env.TOKEN_KEY,
             {expiresIn: '2h'}
         )
+
+        console.log("Token: ",token);
 
         userAuth.token = token;
 
@@ -47,7 +48,7 @@ const userAuthCreate = async (req, res, next) => {
     }
 }
 
-const userAuthLogin = async (req, res, next) => {
+const userAuthLogin = async (req, res) => {
     try {
         const {username, password} = req.body;
 
@@ -55,18 +56,18 @@ const userAuthLogin = async (req, res, next) => {
             res.status(400).send('All input is required');
         }
 
-        const userAuth = await userAuthModel.userAuthByEmail(username);
+        const findUser = await userAuthModel.userAuthByEmail(username);
 
-        if(user &&(await bcrypt.compare(password, userAuth.password))){
+        if(user &&(await bcrypt.compare(password, findUser.password))){
             const token = jwt.sign(
-                {user_id: userAuth.id, username},
+                {user_id: findUser.id, username},
                 process.env.TOKEN_KEY,
                 {expiresIn: "2h"}
             );
 
-            userAuth.token = token;
+            findUser.token = token;
 
-            res.status(200).json(userAuth);
+            res.status(200).json(findUser);
         }
 
         res.status(400).send('Invalid credentials');        
@@ -76,6 +77,6 @@ const userAuthLogin = async (req, res, next) => {
 }
 
 module.exports = {
-    userAuthCreate,
+    userLoginCreate,
     userAuthLogin
 }

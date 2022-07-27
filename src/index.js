@@ -26,9 +26,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 //});
 
 //Router
-const router = require('./routes/index');
+const services = require('./routes/index');
 const auth = require('./routes/auth')
-app.use('/apitickets', router);
+app.use('/apitickets', services);
 app.use('/apitickets-auth', auth);
 
 // Port listening

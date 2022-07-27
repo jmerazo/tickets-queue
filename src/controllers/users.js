@@ -58,6 +58,8 @@ const createUsersController = async (req, res, next) => {
         subdependence_id : req.body.subdependence_id
     }
 
+    console.log("User data: ", userData);
+
     await usersModel.createUserModel(userData, (error, data) => {
         if(error){
             res.status(500).json({message:'Error'})
