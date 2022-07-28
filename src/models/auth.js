@@ -34,14 +34,14 @@ const deleteUserAuthModel = async (id, result) => {
 	});			
 }
 
-const userAuthByEmail = (email) => {
+const userAuthByEmail = async (email, result) => {
 	console.log("Desde model: ", email)
-	connection.query(`SELECT * FROM login WHERE username = "${email}" ORDER BY ID DESC LIMIT 1`, (error, validate) =>{
+	await connection.query(`SELECT * FROM login WHERE username = "${email}" ORDER BY ID DESC LIMIT 1`, (error, validate) =>{
 		if(error){
-			return error, null;
+			return result(error, null);
 		}else{
 			console.log("Rta model: ", validate[0,0].username);
-			return validate[0,0].username, null;
+			return result(validate[0,0].username, null);
 		}
 	});
 }

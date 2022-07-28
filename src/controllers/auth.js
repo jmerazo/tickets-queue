@@ -12,7 +12,16 @@ const userLoginCreate = async (req, res) => {
             res.status(400).send('All input is required');
         }
 
-        var validateEmail = userAuthModel.userAuthByEmail(username);
+        var validateEmail = userAuthModel.userAuthByEmail(username, (data, err) => {
+            if(err){
+                console.log("error validate: ",err)
+            }else{
+                console.log("desde validate: ",data)
+                return data;
+            }
+        })
+
+        var obt = validateEmail.then(val => console.log("desde then: ",val))
 
         console.log("Check email: ",validateEmail);
 
