@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const userAuthModel = require('../models/auth');
-const auth = require('../sequelize/sequelize')
 
 const userLoginCreate = async (req, res) => {
     try {        
@@ -13,6 +12,9 @@ const userLoginCreate = async (req, res) => {
             res.status(400).send('All input is required');
         }
 
+        encryptedPassword = await bcrypt.hash(password, 10);
+        console.log("Pass encyrpt: ", encryptedPassword);
+
         await userAuthModel.userAuthByEmail(username, (data, err) => {
             if(err){
                 console.log("error validate: ",err)
@@ -22,34 +24,31 @@ const userLoginCreate = async (req, res) => {
                     return res.status(409).send(`User ${data[0,0].username} already exist. Please login`);
                     //return `${data[0,0].username}`;
                 }else{
-                    data = "";
-                    encryptedPassword = bcrypt.hash(password, 10);
-                    console.log("Pass encyrpt: ", encryptedPassword);
-
                     const userAuthData = {
                         username : req.body.username.toLowerCase(),
                         password: encryptedPassword
                     }
-                    userAuthModel.createUserAuthModel(userAuthData);
-
-                    console.log("User data: ",userAuth);
-
-                    const token = jwt.sign(
-                        { user_id : userAuth, username },
-                        process.env.TOKEN_KEY,
-                        {expiresIn: '2h'}
-                    )
-
-                    console.log("Token: ",token);
-
-                    userAuth.token = token;
-
-                    res.status(201).json(userAuth);
+                    userAuthModel.createUserAuthModel(userAuthData, (err, login) => {
+                        if(err){
+                            console.log("Rta no id", err)
+                        }else{
+                            console.log("Id creado en model: ", login)
+                            const token = jwt.sign(
+                                { user_id : login, username },
+                                process.env.TOKEN_KEY,
+                                {expiresIn: '2h'}
+                            )
+        
+                            console.log("Token: ",token);
+        
+                            login.token = token;
+        
+                            res.status(201).json(login);
+                        }
+                    });                    
                 }
             }
-        });
-        
-
+        });       
     } catch (err) {
         console.log(err);        
     }
@@ -58,26 +57,33 @@ const userLoginCreate = async (req, res) => {
 const userAuthLogin = async (req, res) => {
     try {
         const {username, password} = req.body;
+        console.log("Username: ", username," - Password",password);
 
         if(!username && !password){
             res.status(400).send('All input is required');
         }
 
-        const findUser = await userAuthModel.userAuthByEmail(username);
+        await userAuthModel.userAuthByEmail(username, (user, err) => {
+            if(err){
+                console.log("User not found");
+            }else{
+                console.log("User login found: ",user);
+                if(user &&(bcrypt.compare(password, user.password))){
+                    const token = jwt.sign(
+                        {user_id: user.id, username},
+                        process.env.TOKEN_KEY,
+                        {expiresIn: "2h"}
+                    );
+        
+                    user.token = token;
+        
+                    res.status(200).json(user);
+                }
+        
+                res.status(400).send('Invalid credentials'); 
+            }
 
-        if(user &&(await bcrypt.compare(password, findUser.password))){
-            const token = jwt.sign(
-                {user_id: findUser.id, username},
-                process.env.TOKEN_KEY,
-                {expiresIn: "2h"}
-            );
-
-            findUser.token = token;
-
-            res.status(200).json(findUser);
-        }
-
-        res.status(400).send('Invalid credentials');        
+        });       
     } catch (error) {
         console.log(error);        
     }
