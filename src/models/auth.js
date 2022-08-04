@@ -36,7 +36,7 @@ const deleteUserAuthModel = async (id, result) => {
 
 const userAuthByEmail = async (email, result) => {
 	console.log("Desde model: ", email);
-	await connection.query(`SELECT username FROM login WHERE username = "${email}" ORDER BY ID DESC LIMIT 1`, (error, validate) =>{
+	await connection.query(`SELECT * FROM login WHERE username = "${email}" ORDER BY ID DESC LIMIT 1`, (error, validate) =>{
 		if(error){
 			return result(error, null);
 		}else{

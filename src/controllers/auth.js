@@ -67,29 +67,43 @@ const userAuthLogin = async (req, res) => {
             if(err){
                 console.log("User not found");
             }else{
-                console.log("User login found: ",user);
-                if(user &&(bcrypt.compare(password, user.password))){
+                const userData = {
+                    id : user[0,0].id,
+                    username : user[0,0].username,
+                    password : user[0,0].password
+                }
+                console.log("user Data: ", userData);
+                if(userData &&(bcrypt.compare(password, userData.password))){
                     const token = jwt.sign(
-                        {user_id: user.id, username},
+                        {user_id: userData.id, username},
                         process.env.TOKEN_KEY,
                         {expiresIn: "2h"}
-                    );
-        
-                    user.token = token;
-        
-                    res.status(200).json(user);
+                    );        
+                    userData.token = token;        
+                    res.status(200).json(userData);
                 }
-        
-                res.status(400).send('Invalid credentials'); 
+                res.status(400).send('Invalid credentials');           
             }
-
+            
         });       
     } catch (error) {
         console.log(error);        
     }
 }
 
+const userAuthLogout = async (req, res) => {
+    const authHeader = req.headers['authorization'];
+    jwt.sign(authHeader, "", {expiresIn: 1}, (logout, err) => {
+        if(logout){
+            res.send({msg: 'User logout'});
+        }else{
+            res.send({msg: 'Error'});
+        }
+    })
+}
+
 module.exports = {
     userLoginCreate,
-    userAuthLogin
+    userAuthLogin,
+    userAuthLogout
 }
