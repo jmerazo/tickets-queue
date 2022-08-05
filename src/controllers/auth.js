@@ -80,9 +80,10 @@ const userAuthLogin = async (req, res) => {
                         {expiresIn: "2h"}
                     );        
                     userData.token = token;        
-                    res.status(200).json(userData);
-                }
-                res.status(400).send('Invalid credentials');           
+                    res.json(userData);
+                }else{
+                    res.status(400).send('Invalid credentials'); 
+                }          
             }
             
         });       

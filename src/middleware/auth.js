@@ -1,19 +1,33 @@
 const { config } = require('dotenv');
 const jwt = require('jsonwebtoken')
 
-const verifyToken = (req, res, next) => {
-    const token = req.body.token || req.query.token || req.headers["x-access-token"];
+//const verifyToken = (req, res, next) => {
+//    const token = req.body.token || req.query.token || req.headers["x-access-token"];
+//
+//    if(!token){
+//        return res.status(403).send('A token is required for authentication');
+//    }
+//
+//    try{
+//        const decoded = jwt.verify(token, config.TOKEN_KEY);
+//        req.user = decoded;
+//        next();
+//    } catch (err) {
+//        return res.status(401).send('Invalid Token');
+//    }
+//}
 
-    if(!token){
-        return res.status(403).send('A token is required for authentication');
-    }
+const verifyToken = async(req, res, next) => {
+    const bearerHeader = req.headers['authorization'];
+    console.log(bearerHeader);
 
-    try{
-        const decoded = jwt.verify(token, config.TOKEN_KEY);
-        req.user = decoded;
+    if(typeof bearerHeader !== 'undefined'){
+        const bearerToken = bearerHeader.split(" ")[1];
+        req.token = bearerToken;
+        console.log("token: ", req.token);
         next();
-    } catch (err) {
-        return res.status(401).send('Invalid Token');
+    }else{
+        res.sendStatus(403);
     }
 }
 
