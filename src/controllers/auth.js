@@ -57,23 +57,23 @@ const userLoginCreate = async (req, res) => {
 const userAuthLogin = async (req, res) => {
     try {
         const {username, password} = req.body;
-        console.log("Username: ", username," - Password",password);
+        console.log("Username: ", username," - Password: ",password);
 
         if(!username && !password){
             res.status(400).send('All input is required');
         }
 
-        await userAuthModel.userAuthByEmail(username, (user, err) => {
-            if(err){
-                console.log("User not found");
+        userAuthModel.userAuthByEmail(username, async (user, err) => {
+            if(user == ""){
+                console.log(`User ${username} not found`, err);
+                res.sendStatus(403);
             }else{
                 const userData = {
                     id : user[0,0].id,
                     username : user[0,0].username,
                     password : user[0,0].password
                 }
-                console.log("user Data: ", userData);
-                if(userData &&(bcrypt.compare(password, userData.password))){
+                if(userData &&(await bcrypt.compare(password, userData.password))){
                     const token = jwt.sign(
                         {user_id: userData.id, username},
                         process.env.TOKEN_KEY,
@@ -92,6 +92,10 @@ const userAuthLogin = async (req, res) => {
     }
 }
 
+const userProtect = async (req, res, next) => {
+    res.send({msg: "Welcome to protect"});
+}
+
 const userAuthLogout = async (req, res) => {
     const authHeader = req.headers['authorization'];
     jwt.sign(authHeader, "", {expiresIn: 1}, (logout, err) => {
@@ -106,5 +110,6 @@ const userAuthLogout = async (req, res) => {
 module.exports = {
     userLoginCreate,
     userAuthLogin,
-    userAuthLogout
+    userAuthLogout,
+    userProtect
 }
