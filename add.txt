@@ -6,3 +6,4 @@ Se requiere agregar:
 
 
 https://www.section.io/engineering-education/how-to-build-authentication-api-with-jwt-token-in-nodejs/
+login vue+express+nodejs: https://www.bezkoder.com/node-express-vue-jwt-auth/
