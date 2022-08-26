@@ -8,6 +8,7 @@ const ticketsController = require('../controllers/tickets');
 const subjectsController = require('../controllers/subjects');
 const locationsController = require('../controllers/locations');
 const prefixController = require('../controllers/prefix');
+const auth = require('../middleware/auth');
 
 // Route information to connect API
 router.get('/', function(req, res){res.status(200).json({ message: 'Connect to our API'})});
