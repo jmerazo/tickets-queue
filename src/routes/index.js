@@ -8,6 +8,7 @@ const ticketsController = require('../controllers/tickets');
 const subjectsController = require('../controllers/subjects');
 const locationsController = require('../controllers/locations');
 const prefixController = require('../controllers/prefix');
+const rolesController = require('../controllers/roles');
 const auth = require('../middleware/auth');
 
 // Route information to connect API
@@ -51,11 +52,18 @@ router.post('/management/create', managementsController.createManagementControll
 router.put('/management/update/:id', managementsController.updateManagementController);
 router.delete('/management/delete/:id', managementsController.deleteManagementController);
 
+// Routes Roles
+router.get('/roles', rolesController.getRolesController);
+router.get('/roles/search/:id', rolesController.getRolByIdController);
+router.post('/roles/create', rolesController.createRolController);
+router.put('/roles/update/:id', rolesController.updateRolController);
+router.delete('/roles/delete/:id', rolesController.deleteRolController);
+
 // Route tickets
 router.get('/tickets', ticketsController.getTicketsController);
 router.get('/ticket/search/:id', ticketsController.getTicketByIdController);
 router.get('/ticket/count', prefixController.getCountController);
-router.post('/ticket/create', ticketsController.createTicketController);
+router.post('/ticket/create/:id', ticketsController.createTicketController);
 router.put('/ticket/update/:id', ticketsController.updateTicketController);
 router.delete('/ticket/delete/:id', ticketsController.deleteTicketController);
 

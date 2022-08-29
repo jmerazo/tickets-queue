@@ -4,11 +4,13 @@ const userAuthModel = require('../models/auth');
 
 const userLoginCreate = async (req, res) => {
     try {        
-        var {username, password} = req.body;
+        var {user_id, username, password, rol_id} = req.body;
         console.log("Username: ",username);
         console.log("Password: ",password);
+        console.log("user_id: ",user_id);
+        console.log("rol_id: ",rol_id.id);
         
-        if(!username || !password){
+        if(!username || !password || !user_id || !rol_id){
             res.status(400).send('All input is required');
         }
 
@@ -26,7 +28,9 @@ const userLoginCreate = async (req, res) => {
                 }else{
                     const userAuthData = {
                         username : req.body.username.toLowerCase(),
-                        password: encryptedPassword
+                        password: encryptedPassword,
+                        user_id : req.body.user_id,
+                        rol_id : req.body.rol_id.id
                     }
                     userAuthModel.createUserAuthModel(userAuthData, (err, login) => {
                         if(err){
@@ -48,6 +52,41 @@ const userLoginCreate = async (req, res) => {
                     });                    
                 }
             }
+        });       
+    } catch (err) {
+        console.log(err);        
+    }
+}
+
+const updatePassAuthLogin = async (req, res) => {
+    try {        
+        var {password} = req.body;
+        console.log("Password: ",password);
+
+        if(!password){
+            res.status(400).send('All input is required');
+        }
+
+        encryptedPassword = await bcrypt.hash(password, 10);
+
+        const userAuthData = {
+            password: encryptedPassword
+        }
+
+        console.log("Password encrypted: ", userAuthData.password);
+        const uid = req.params.id;
+        console.log("Id User: ", uid)
+        userAuthModel.updatePassAuthModel(uid, userAuthData, (err, login) => {
+            if(!uid){
+                res.status(400).send({
+                    message: `User not found with id ${uid}`
+                })
+            }
+            if(err){
+                res.status(500).send({
+                    message: `Error updating User with id ${uid}`
+                })
+            }else res.send(login).status(200);                            
         });       
     } catch (err) {
         console.log(err);        
@@ -111,5 +150,6 @@ module.exports = {
     userLoginCreate,
     userAuthLogin,
     userAuthLogout,
-    userProtect
+    userProtect,
+    updatePassAuthLogin
 }

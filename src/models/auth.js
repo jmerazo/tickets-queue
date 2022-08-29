@@ -22,6 +22,21 @@ const updateUserAuthModel = async (id, userData, result) => {
 		}
 	});
 }
+
+//Update Password
+const updatePassAuthModel = async (id, userData, result) => {
+	console.log("Id desde model: ",id);
+	console.log("Pass desde model: ", userData.password);
+	await connection.query(`UPDATE login SET ? WHERE user_id = ${id}`, userData, (error, results) => {
+		if(error){
+			return result(error, null);
+			console.log("Error model: ", error)
+		}else{
+			return result(null, results.id);
+			console.log("Success model: ", results);
+		}
+	});
+}
  
 //Delete user by Id
 const deleteUserAuthModel = async (id, result) => {
@@ -50,5 +65,6 @@ module.exports = {
     createUserAuthModel,
     updateUserAuthModel,
     deleteUserAuthModel,
-	userAuthByEmail
+	userAuthByEmail,
+	updatePassAuthModel
 };
