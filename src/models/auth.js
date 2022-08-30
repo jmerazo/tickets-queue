@@ -25,17 +25,26 @@ const updateUserAuthModel = async (id, userData, result) => {
 
 //Update Password
 const updatePassAuthModel = async (id, userData, result) => {
-	console.log("Id desde model: ",id);
-	console.log("Pass desde model: ", userData.password);
 	await connection.query(`UPDATE login SET ? WHERE user_id = ${id}`, userData, (error, results) => {
 		if(error){
 			return result(error, null);
-			console.log("Error model: ", error)
 		}else{
 			return result(null, results.id);
-			console.log("Success model: ", results);
 		}
 	});
+}
+
+//Update status user
+const updateStatusModel = async (id, status, result) => {
+	console.log("User model: ", id)
+	console.log("Status model: ", status)
+	await connection.query(`UPDATE login SET ? WHERE user_id = ${id}`, status.status, (error, results) => {
+		if(error){
+			return result(error, null);
+		}else{
+			return result(null, results.id);
+		}
+	})
 }
  
 //Delete user by Id
@@ -66,5 +75,6 @@ module.exports = {
     updateUserAuthModel,
     deleteUserAuthModel,
 	userAuthByEmail,
-	updatePassAuthModel
+	updatePassAuthModel,
+	updateStatusModel
 };

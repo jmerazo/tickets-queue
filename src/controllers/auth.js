@@ -93,6 +93,34 @@ const updatePassAuthLogin = async (req, res) => {
     }
 }
 
+const updateStatusController = async (req, res) => {
+    try {        
+        var {status} = req.body;
+        console.log("Status: ",status)       
+        if(!status) res.status(400).send('All input is required')
+        const uid = req.params.id;
+        console.log("UID: ", uid)
+
+        const dataStatus = {
+            status : req.body
+        }
+        userAuthModel.updateStatusModel(uid, dataStatus, (err, stat) => {
+            if(!uid){
+                res.status(400).send({
+                    message: `User not found with id ${uid}`
+                })
+            }
+            if(err){
+                res.status(500).send({
+                    message: `Error updating User with id ${uid}`
+                })
+            }else res.send(stat).status(200);                            
+        });       
+    } catch (err) {
+        console.log(err);        
+    }
+}
+
 const userAuthLogin = async (req, res) => {
     try {
         const {username, password} = req.body;
@@ -110,7 +138,10 @@ const userAuthLogin = async (req, res) => {
                 const userData = {
                     id : user[0,0].id,
                     username : user[0,0].username,
-                    password : user[0,0].password
+                    password : user[0,0].password,
+                    user_id : user[0,0].user_id,
+                    rol_id : user[0,0].rol_id,
+                    status : user[0,0].status
                 }
                 if(userData &&(await bcrypt.compare(password, userData.password))){
                     const token = jwt.sign(
@@ -151,5 +182,6 @@ module.exports = {
     userAuthLogin,
     userAuthLogout,
     userProtect,
-    updatePassAuthLogin
+    updatePassAuthLogin,
+    updateStatusController
 }
