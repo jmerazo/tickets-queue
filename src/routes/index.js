@@ -62,6 +62,7 @@ router.delete('/roles/delete/:id', rolesController.deleteRolController);
 // Route tickets
 router.get('/tickets', ticketsController.getTicketsController);
 router.get('/ticket/search/:id', ticketsController.getTicketByIdController);
+router.get('/tickets/list/:id', ticketsController.getTicketsByUIdController);
 router.get('/ticket/count', prefixController.getCountController);
 router.post('/ticket/create/:id', ticketsController.createTicketController);
 router.put('/ticket/update/:id', ticketsController.updateTicketController);

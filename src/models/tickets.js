@@ -20,6 +20,16 @@ const getTicketByIdModel = async function(id, result){
 	});
 }
 
+const getTicketsByUIdModel = async function(id, result){
+	await connection.query(`SELECT * FROM tickets WHERE user_id = ${id}`, (error, tickets) =>{
+		if(error){
+			return result(error, null);
+		}else{
+			return result(null, tickets);
+		}
+	});
+}
+
 const createTicketModel = async (ticketData,result) => {
 	await connection.query('INSERT INTO tickets SET ?', ticketData, (error, results) => {
 		if(error){			
@@ -56,5 +66,6 @@ module.exports = {
     getTicketByIdModel,
     createTicketModel,
     updateTicketModel,
-    deleteTicketModel
+    deleteTicketModel,
+	getTicketsByUIdModel
 };

@@ -20,6 +20,17 @@ const getTicketByIdController = async (req, res, next) => {
     });
 }
 
+const getTicketsByUIdController = async (req, res, next) => {
+    const id = req.params.id;
+    await ticketsModel.getTicketsByUIdModel(id, (err, data) => {
+        if(err){
+            res.status(500).json({message:'Error'})
+        }else{
+            res.status(200).json(data);
+        }
+    });
+}
+
 const createTicketController = async (req, res, next) => {
 
     if(!req.body){
@@ -114,5 +125,6 @@ module.exports = {
     getTicketByIdController,
     createTicketController,
     updateTicketController,
-    deleteTicketController
+    deleteTicketController,
+    getTicketsByUIdController
 }
