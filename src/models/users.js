@@ -2,7 +2,7 @@ const connection = require('../db/con_db');
 
 //List users all
  const getUsersModel = async function(result) {
-    await connection.query('SELECT * FROM users', (error, users) => {
+    await connection.query('SELECT u.id, u.document_type, u.document_number, u.names, u.last_names, u.phone, u.email, d.name AS dname, s.name AS sname, l.status FROM users u INNER JOIN dependences d ON u.dependence_id = d.id INNER JOIN subdependencies s ON u.subdependence_id = s.id INNER JOIN login l ON u.id = l.user_id', (error, users) => {
 		if(error){
 			return result(error, null);
 		}else{

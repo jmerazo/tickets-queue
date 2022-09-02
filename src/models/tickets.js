@@ -21,7 +21,7 @@ const getTicketByIdModel = async function(id, result){
 }
 
 const getTicketsByUIdModel = async function(id, result){
-	await connection.query(`SELECT * FROM tickets WHERE user_id = ${id}`, (error, tickets) =>{
+	await connection.query(`SELECT * FROM tickets INNER JOIN persons ON tickets.id = persons.id WHERE user_id = ${id}`, (error, tickets) =>{
 		if(error){
 			return result(error, null);
 		}else{
