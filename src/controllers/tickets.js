@@ -59,11 +59,10 @@ const createTicketController = async (req, res, next) => {
         dependence_id : req.body.dependence_id,
         subdependence_id : req.body.dependence_id,
         user_id : req.body.user_id,
-        subject_id : req.body.subject_id,
+        person_id: req.body.person_id,
+        subject_id : req.body.subject_id,        
         description : req.body.description
     }
-    console.log("Form");
-    console.log(ticketData);
 
     await ticketsModel.createTicketModel(ticketData, (error, data) => {
         if(error){
@@ -93,6 +92,8 @@ const updateTicketController = async (req, res, next) => {
         description : req.body.description,
         status: req.body.status
     }
+
+    console.log("Info ticket: ", ticketData);
     
     const uid = req.params.id;
     await ticketsModel.updateTicketModel(uid, ticketData, (err, data) => {

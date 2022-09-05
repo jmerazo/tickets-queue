@@ -40,7 +40,9 @@ router.delete('/subdependence/delete/:id', areasController.deleteSubdependenceCo
 
 // Routes Persons
 router.get('/persons', personsController.getPersonsController);
+router.get('/person/id', personsController.getIdController);
 router.get('/person/search/:id', personsController.getPersonByIdController);
+router.get('/person/search/document/:nd', personsController.getPersonByDocumentController);
 router.post('/person/create', personsController.createPersonController);
 router.put('/person/update/:id', personsController.updatePersonController);
 router.delete('/person/delete/:id', personsController.deletePersonController);
@@ -64,7 +66,7 @@ router.get('/tickets', ticketsController.getTicketsController);
 router.get('/ticket/search/:id', ticketsController.getTicketByIdController);
 router.get('/tickets/list/:id', ticketsController.getTicketsByUIdController);
 router.get('/ticket/count', prefixController.getCountController);
-router.post('/ticket/create/:id', ticketsController.createTicketController);
+router.post('/ticket/create', ticketsController.createTicketController);
 router.put('/ticket/update/:id', ticketsController.updateTicketController);
 router.delete('/ticket/delete/:id', ticketsController.deleteTicketController);
 

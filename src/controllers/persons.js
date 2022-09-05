@@ -17,6 +17,27 @@ const getPersonByIdController = async (req, res, next) => {
     });
 }
 
+const getIdController = async (req, res, next) => {
+    await personsModel.getId((err, data) => {
+        if(err){
+            res.status(500).json({message:'Error'})
+        }else{
+            res.status(200).json(data);
+        }
+    });
+}
+
+const getPersonByDocumentController = async (req, res, next) => {
+    const nd = req.params.nd;
+    await personsModel.getPersonByDocument(nd, (err, data) => {
+        if(err){
+            res.status(500).json({message:'Error'})
+        }else{
+            res.status(200).json(data);
+        }
+    });
+}
+
 const createPersonController = async (req, res, next) => {
 
     if(!req.body){
@@ -94,5 +115,7 @@ module.exports = {
     getPersonByIdController,
     createPersonController,
     updatePersonController,
-    deletePersonController
+    deletePersonController,
+    getPersonByDocumentController,
+    getIdController
 }
