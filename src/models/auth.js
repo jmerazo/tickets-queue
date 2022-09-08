@@ -37,8 +37,8 @@ const updatePassAuthModel = async (id, userData, result) => {
 //Update status user
 const updateStatusModel = async (id, status, result) => {
 	console.log("User model: ", id)
-	console.log("Status model: ", status)
-	await connection.query(`UPDATE login SET ? WHERE user_id = ${id}`, status.status, (error, results) => {
+	console.log("Status model: ", status.status)
+	await connection.query(`UPDATE login AS l INNER JOIN users AS u ON l.user_id = u.id SET l.status = ${status.status}, u.status = ${status.status} WHERE l.user_id = ${id}`, (error, results) => {
 		if(error){
 			return result(error, null);
 		}else{

@@ -101,10 +101,13 @@ const updateStatusController = async (req, res) => {
         const uid = req.params.id;
         console.log("UID: ", uid)
 
-        const dataStatus = {
-            status : req.body
-        }
-        userAuthModel.updateStatusModel(uid, dataStatus, (err, stat) => {
+        //const dataStatus = {
+        //    status : req.body
+        //}
+
+        status = req.body;
+
+        userAuthModel.updateStatusModel(uid, status, (err, stat) => {
             if(!uid){
                 res.status(400).send({
                     message: `User not found with id ${uid}`
