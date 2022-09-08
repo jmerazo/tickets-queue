@@ -27,7 +27,8 @@ const createDependenceController = async (req, res, next) => {
     }
 
     const depData = {
-        name : req.body.name
+        name : req.body.name,
+        code: req.body.code
     }
 
     await areasModel.createDependenceModel(depData, (error, data) => {
