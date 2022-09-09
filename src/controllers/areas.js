@@ -118,6 +118,7 @@ const createSubdependenceController = async (req, res, next) => {
 
     const depData = {
         name : req.body.name,
+        code : req.body.code,
         dependence_id : req.body.dependence_id
     }
 
@@ -139,6 +140,7 @@ const updateSubdependenceController = async (req, res, next) => {
 
     const depData = {
         name : req.body.name,
+        code : req.body.code,
         dependence_id : req.body.dependence_id
     }
     
