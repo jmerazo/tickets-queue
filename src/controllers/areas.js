@@ -48,9 +48,10 @@ const updateDependenceController = async (req, res, next) => {
     }
 
     const depData = {
-        name : req.body.name
+        name : req.body.name,
+        code : req.body.code
     }
-    
+    console.log("Data dep: ", depData);
     const uid = req.params.id;
     await areasModel.updateDependenceModel(uid, depData, (err, data) => {
         if(!uid){
