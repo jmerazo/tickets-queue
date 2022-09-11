@@ -2,7 +2,7 @@ const connection = require('../db/con_db');
 
 //List users all
  const getUsersModel = async function(result) {
-    await connection.query('SELECT u.id, u.document_type, u.document_number, u.names, u.last_names, u.phone, u.email, d.name AS dname, s.name AS sname, l.status FROM users u INNER JOIN dependences d ON u.dependence_id = d.id INNER JOIN subdependencies s ON u.subdependence_id = s.id INNER JOIN login l ON u.id = l.user_id', (error, users) => {
+    await connection.query('SELECT u.id, u.document_type, u.document_number, u.names, u.last_names, u.phone, u.email, d.name AS dname, s.name AS sname, u.status FROM users u INNER JOIN dependences d ON u.dependence_id = d.id INNER JOIN subdependencies s ON u.subdependence_id = s.id', (error, users) => {
 		if(error){
 			return result(error, null);
 		}else{
@@ -53,6 +53,18 @@ const createUserModel = async (userData,result) => {
 		}
 	});
 }
+
+//Add time user
+const timeUserModel = async (userData,result) => {
+	await connection.query('INSERT INTO user_times SET ?', userData, (error, results) => {
+		if(error){			
+			return result(error, null);
+		}else{
+			//devolvemos el id del usuario insertado
+			return result(null, results.id);
+		}
+	});
+}
  
 //Update user
 const updateUserModel = async (id, userData, result) => {
@@ -83,5 +95,6 @@ module.exports = {
 	getUserByEmailModel,
     createUserModel,
     updateUserModel,
-    deleteUserModel
+    deleteUserModel,
+	timeUserModel
 };

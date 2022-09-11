@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const userAuthModel = require('../models/auth');
+const usersModel = require('../models/users');
 
 const userLoginCreate = async (req, res) => {
     try {        
@@ -32,6 +33,30 @@ const userLoginCreate = async (req, res) => {
                         user_id : req.body.user_id,
                         rol_id : req.body.rol_id.id
                     }
+
+                    const rol = req.body.rol_id.id
+
+                    if(rol != 0 || rol != 1){
+                        for(i=1;i<44;i++){
+                            var user_id = userAuthData.user_id;
+                            var time_id = i;
+
+                            const timeData = {
+                                user_id : user_id,
+                                time_id : time_id
+                            }
+    
+                            console.log('User times register: ', timeData)
+                            usersModel.timeUserModel(timeData, (error, data) => {
+                                if(error){
+                                    res.status(500).json({message:'Error'})
+                                }else{
+                                    res.send(data).status(200);
+                                }
+                            })
+                        }
+                    }
+
                     userAuthModel.createUserAuthModel(userAuthData, (err, login) => {
                         if(err){
                             console.log("Rta no id", err)
@@ -47,7 +72,7 @@ const userLoginCreate = async (req, res) => {
         
                             login.token = token;
         
-                            res.status(201).json(login);
+                            res.send(data).status(201);
                         }
                     });                    
                 }

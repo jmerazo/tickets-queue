@@ -9,6 +9,7 @@ const subjectsController = require('../controllers/subjects');
 const locationsController = require('../controllers/locations');
 const prefixController = require('../controllers/prefix');
 const rolesController = require('../controllers/roles');
+const calendarController = require('../controllers/calendar');
 const auth = require('../middleware/auth');
 
 // Route information to connect API
@@ -83,5 +84,9 @@ router.get('/department/search/:id', locationsController.getDepartmentByIdContro
 router.get('/cities', locationsController.getCitiesController);
 router.get('/city/search/:id', locationsController.getCityByIdController);
 router.get('/cities/filter/:id', locationsController.getCityByDIDController);
+
+// Route Calendar
+router.get('/user/calendar/times/:id', calendarController.getCalendarUserController);
+router.put('/user/calendar/status/time/:id', calendarController.updateStatusTimeController);
 
 module.exports = router;
