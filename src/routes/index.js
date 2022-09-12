@@ -88,5 +88,6 @@ router.get('/cities/filter/:id', locationsController.getCityByDIDController);
 // Route Calendar
 router.get('/user/calendar/times/:id', calendarController.getCalendarUserController);
 router.put('/user/calendar/status/time/:id', calendarController.updateStatusTimeController);
+router.post('/user/calendar/days', calendarController.createUserDaysController);
 
 module.exports = router;

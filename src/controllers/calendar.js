@@ -11,6 +11,37 @@ const getCalendarUserController = async (req, res, next) => {
     });
 }
 
+const createUserDaysController = async (req, res, next) => {
+
+    if(!req.body){
+        res.status(400).send({
+            message: "Content can not be empty!"
+        })
+    }
+
+    var days = []
+    var daystoint = req.body.days;
+    for(i=0;i<daystoint.length;i++){
+        days[i] = parseInt(daystoint[i])
+    }
+    console.log(days)   
+
+    const userDays = {
+        user_id : req.body.user_id,
+        days : JSON.stringify(days)
+    }
+
+    console.log("User data: ", userDays);
+
+    await calendarModel.createUsersDaysModel(userDays, (error, data) => {
+        if(error){
+            res.status(500).json({message:'Error'})
+        }else{
+            res.send(data).status(200);
+        }
+    })
+}
+
 const updateStatusTimeController = async (req, res) => {
     try {        
         var {status} = req.body;     
@@ -38,5 +69,6 @@ const updateStatusTimeController = async (req, res) => {
 
 module.exports = {
     getCalendarUserController,
-    updateStatusTimeController
+    updateStatusTimeController,
+    createUserDaysController
 }

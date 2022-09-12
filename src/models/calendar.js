@@ -11,6 +11,18 @@ const getCalendarUserModel = async function(id, result){
 	});
 }
 
+//Add new days
+const createUsersDaysModel = async (days,result) => {
+	await connection.query('INSERT INTO user_days SET ?', days, (error, results) => {
+		if(error){			
+			return result(error, null);
+		}else{
+			//devolvemos el id del usuario insertado
+			return result(null, results.id);
+		}
+	});
+}
+
 //Update status user
 const updateStatusTimeModel = async (id, status, result) => {
 	await connection.query(`UPDATE user_times SET status = ${status.status} WHERE id = ${id}`, (error, results) => {
@@ -24,5 +36,6 @@ const updateStatusTimeModel = async (id, status, result) => {
 
 module.exports = {
     getCalendarUserModel,
-    updateStatusTimeModel
+    updateStatusTimeModel,
+	createUsersDaysModel
 }
