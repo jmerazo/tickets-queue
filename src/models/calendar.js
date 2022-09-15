@@ -12,8 +12,23 @@ const getCalendarUserModel = async function(id, result){
 }
 
 //Add new days
-const createUsersDaysModel = async (days,result) => {
-	await connection.query('INSERT INTO user_days SET ?', days, (error, results) => {
+const createUsersDaysModel = async (id, days, result) => {
+	console.log("ID Calendar model: ", id);
+	console.log("Days calendar model: ", days);
+	await connection.query(`UPDATE user_days SET days = JSON_MERGE_PATCH(days, ${days})) WHERE user_id = ${id}`, (error, results) => {
+		if(error){			
+			return result(error, null);
+		}else{
+			//devolvemos el id del usuario insertado
+			return result(null, results.id);
+		}
+	});
+}
+
+//Add new user_id
+const createUserDaysModel = async (id,result) => {
+	console.log("user_id model calendar: ", id)
+	await connection.query(`INSERT INTO user_days SET user_id = ${id}`, (error, results) => {
 		if(error){			
 			return result(error, null);
 		}else{
@@ -37,5 +52,6 @@ const updateStatusTimeModel = async (id, status, result) => {
 module.exports = {
     getCalendarUserModel,
     updateStatusTimeModel,
-	createUsersDaysModel
+	createUsersDaysModel,
+	createUserDaysModel
 }

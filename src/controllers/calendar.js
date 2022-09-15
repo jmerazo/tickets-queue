@@ -26,14 +26,16 @@ const createUserDaysController = async (req, res, next) => {
     }
     console.log(days)   
 
-    const userDays = {
-        user_id : req.body.user_id,
-        days : JSON.stringify(days)
-    }
+    //const userDays = {
+    //    user_id : req.body.user_id,
+    //    days : JSON.stringify(days)
+    //}
+    var user_id = req.body.user_id;
+    var days = JSON.stringify(days);
 
-    console.log("User data: ", userDays);
+    //console.log("User data: ", userDays);
 
-    await calendarModel.createUsersDaysModel(userDays, (error, data) => {
+    await calendarModel.createUsersDaysModel(user_id, days, (error, data) => {
         if(error){
             res.status(500).json({message:'Error'})
         }else{

@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const userAuthModel = require('../models/auth');
 const usersModel = require('../models/users');
+const calendarModel = require('../models/calendar');
 
 const userLoginCreate = async (req, res) => {
     try {        
@@ -55,6 +56,15 @@ const userLoginCreate = async (req, res) => {
                                 }
                             })
                         }
+                        console.log("user_id: ",user_id)
+
+                        calendarModel.createUserDaysModel(user_id, (error, data) => {
+                            if(error){
+                                res.status(500).json({message:'Error'})
+                            }else{
+                                res.send(data).status(200);
+                            }
+                        })
                     }
 
                     userAuthModel.createUserAuthModel(userAuthData, (err, login) => {
